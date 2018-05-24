@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="verde">#009900</color>
+    <color name="azul">#0000EE</color>
+    <color name="morao">#EE00EE</color>
 </resources>
