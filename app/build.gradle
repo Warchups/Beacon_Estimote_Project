@@ -32,4 +32,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile 'org.altbeacon:android-beacon-library:2.12.3'
     compile 'com.estimote:sdk:1.4.1'
+    implementation 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.github.clans:fab:1.6.4'
 }

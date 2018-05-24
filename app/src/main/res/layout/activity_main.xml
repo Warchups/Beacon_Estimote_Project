@@ -1,27 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:id="@+id/relative_fondo">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@android:color/transparent">
 
-        <!--<ListView
-            android:id="@+id/listaEstimote"
+        <ListView
+            android:id="@+id/lista_beacons"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:divider="@android:color/transparent"/>
 
-        </ListView>-->
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/floating_menu_main"
+            app:menu_backgroundColor="#aaffffff"
+            app:menu_labels_ellipsize="end"
+            app:menu_labels_singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    </LinearLayout>
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_emit"
+                app:fab_label="Emit as Beacon"
+                app:fab_size="mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_tap_and_play_24" />
 
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_refresh"
+                app:fab_label="Refresh"
+                app:fab_size="mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_refresh_24" />
 
+        </com.github.clans.fab.FloatingActionMenu>
+
+    </android.support.constraint.ConstraintLayout>
 
 </RelativeLayout>
