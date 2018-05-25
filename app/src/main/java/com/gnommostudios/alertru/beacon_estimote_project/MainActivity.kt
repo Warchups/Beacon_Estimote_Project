@@ -1,5 +1,6 @@
 package com.gnommostudios.alertru.beacon_estimote_project
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -105,11 +106,17 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.fab_emit -> {
-
+                val intent = Intent(this@MainActivity, EmitAsBeacon::class.java)
+                this@MainActivity.startActivity(intent)
             }
             R.id.fab_refresh -> {
-
+                refresh()
             }
         }
+    }
+
+    private fun refresh() {
+        beaconManager!!.disconnect()
+        beaconManager!!.connect(this)
     }
 }

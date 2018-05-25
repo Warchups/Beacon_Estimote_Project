@@ -15,6 +15,7 @@
         android:orientation="horizontal"
         android:background="@android:color/transparent">
 
+        <!--Beacons list-->
         <ListView
             android:id="@+id/lista_beacons"
             android:layout_width="match_parent"
@@ -27,7 +28,7 @@
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/floating_menu_main"
-            app:menu_backgroundColor="#aaffffff"
+            app:menu_backgroundColor="#00ffffff"
             app:menu_labels_ellipsize="end"
             app:menu_labels_singleLine="true"
             android:layout_width="match_parent"
