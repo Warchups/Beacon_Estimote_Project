@@ -47,7 +47,9 @@
             android:ems="10"
             android:hint="ID 1"
             android:inputType="textPersonName"
-            android:text="b9407f30-f5f8-466e-aff9-25556b57fe6d" />
+            android:text="@string/beacon_uuid" />
+        <!--b9407f30-f5f8-466e-aff9-25556b57fe6d-->
+        <!--22222222-2222-2222-2222-222222222222-->
 
     </android.support.design.widget.TextInputLayout>
 
@@ -125,7 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="192dp" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <LinearLayout
         android:id="@+id/linear_layout"
@@ -144,7 +146,7 @@
             android:layout_height="wrap_content"
             android:text="Advertisements Per Second" />
 
-        <Spinner
+        <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/spinner_advertisements"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -169,7 +171,7 @@
             android:layout_height="wrap_content"
             android:text="Transmiter Power" />
 
-        <Spinner
+        <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/spinner_power"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -194,7 +196,7 @@
             android:layout_height="wrap_content"
             android:text="Beacon Format" />
 
-        <Spinner
+        <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/spinner_format"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
