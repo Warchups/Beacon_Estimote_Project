@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ListView
 import android.widget.RelativeLayout
+import android.widget.Toast
 
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion
 import com.estimote.coresdk.recognition.packets.Beacon
@@ -94,12 +95,36 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
                     relativeLayout!!.setBackgroundColor(Color.parseColor("#d0e0b8"))
                 else -> relativeLayout!!.setBackgroundColor(Color.BLACK)
             }
+
+            showBeaconFilms(beacons)
         } else {
             relativeLayout!!.setBackgroundColor(Color.WHITE)
             Log.i(TAG, "No hay beacons cerca.")
         }
 
         beaconsList = beacons
+    }
+
+    private fun showBeaconFilms(beacons: List<Beacon>) {
+        here@for (i in beacons.indices) {
+            if (Math.pow(10.0, (beacons[i].measuredPower - beacons[i].rssi) / 20.0) <= 1) {
+                when (beacons[i].macAddress.toString()) {
+                    MainBeacons.BLUE -> {
+                        Toast.makeText(this, "Azul cerca", Toast.LENGTH_SHORT).show()
+                        break@here
+                    }
+                    MainBeacons.PURPLE -> {
+                        Toast.makeText(this, "Morado cerca", Toast.LENGTH_SHORT).show()
+                        break@here
+                    }
+                    MainBeacons.GREEN -> {
+                        Toast.makeText(this, "Verde cerca", Toast.LENGTH_SHORT).show()
+                        break@here
+                    }
+                }
+            }
+        }
+
     }
 
     override fun onServiceReady() {
