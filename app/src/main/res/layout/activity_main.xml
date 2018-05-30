@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".view.MainActivity"
     android:id="@+id/relative_fondo">
 
     <android.support.constraint.ConstraintLayout
@@ -39,6 +39,14 @@
             android:paddingRight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_scan"
+                app:fab_label="Scan Films"
+                app:fab_size="mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_track_changes_24" />
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_emit"

@@ -7,11 +7,13 @@ class Pelicula : Serializable {
     var id: Int = 0
     var titulo: String? = null
     var imagen: ByteArray? = null
+    var beaconMac: String? = null
 
-    constructor(id: Int, titulo: String?, imagen: ByteArray?) {
+    constructor(id: Int, titulo: String?, imagen: ByteArray?, beaconMac: String?) {
         this.id = id
         this.titulo = titulo
         this.imagen = imagen
+        this.beaconMac = beaconMac
     }
 
     constructor()

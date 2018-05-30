@@ -8,8 +8,6 @@ import com.estimote.coresdk.common.config.EstimoteSDK
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver
 
-
-
 class MyApplication : Application() {
 
     var beaconManager: BeaconManager? = null

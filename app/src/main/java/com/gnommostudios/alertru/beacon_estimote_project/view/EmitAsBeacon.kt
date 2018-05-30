@@ -1,4 +1,4 @@
-package com.gnommostudios.alertru.beacon_estimote_project
+package com.gnommostudios.alertru.beacon_estimote_project.view
 
 import android.bluetooth.le.AdvertiseCallback
 import android.bluetooth.le.AdvertiseSettings
@@ -17,7 +17,7 @@ import android.content.DialogInterface
 import android.bluetooth.BluetoothManager
 import android.content.pm.PackageManager
 import android.support.v7.app.AlertDialog
-
+import com.gnommostudios.alertru.beacon_estimote_project.R
 
 class EmitAsBeacon : AppCompatActivity(), View.OnClickListener {
 

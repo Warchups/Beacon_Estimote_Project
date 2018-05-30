@@ -11,6 +11,7 @@ import android.util.Log;
 import com.gnommostudios.alertru.beacon_estimote_project.DAO.PeliculaDAO;
 import com.gnommostudios.alertru.beacon_estimote_project.R;
 import com.gnommostudios.alertru.beacon_estimote_project.pojo.Pelicula;
+import com.gnommostudios.alertru.beacon_estimote_project.utils.MainBeacons;
 
 import java.io.ByteArrayOutputStream;
 
@@ -22,9 +23,9 @@ public class MiBD extends SQLiteOpenHelper{
 
     private static final String database = "BeaconPelis";
 
-    private static final int version = 1;
+    private static final int version = 3;
 
-    private String sqlCreacionPeliculas = "CREATE TABLE peliculas ( id INTEGER PRIMARY KEY AUTOINCREMENT, titulo STRING, imagen BLOB);";
+    private String sqlCreacionPeliculas = "CREATE TABLE peliculas ( id INTEGER PRIMARY KEY AUTOINCREMENT, titulo STRING, imagen BLOB, beacon STRING);";
 
     private static MiBD instance = null;
 
@@ -98,23 +99,26 @@ public class MiBD extends SQLiteOpenHelper{
         opBitmap.compress(Bitmap.CompressFormat.PNG, 0 , baosOp);
         byte[] op = baosOp.toByteArray();
 
-        String sql1 = "INSERT INTO peliculas(titulo, imagen) VALUES ('Dunkerque', ?);";
-        String sql2 = "INSERT INTO peliculas(titulo, imagen) VALUES ('No es pais para viejos', ?);";
-        String sql3 = "INSERT INTO peliculas(titulo, imagen) VALUES ('One Piece Film Gold', ?);";
+        String sql1 = "INSERT INTO peliculas(titulo, imagen, beacon) VALUES ('Dunkerque', ?, ?);";
+        String sql2 = "INSERT INTO peliculas(titulo, imagen, beacon) VALUES ('No es pais para viejos', ?, ?);";
+        String sql3 = "INSERT INTO peliculas(titulo, imagen, beacon) VALUES ('One Piece Film Gold', ?, ?);";
 
         SQLiteStatement insert1 = db.compileStatement(sql1);
         insert1.clearBindings();
         insert1.bindBlob(1, dunkerque);
+        insert1.bindString(2, MainBeacons.PURPLE);
         insert1.executeInsert();
 
         SQLiteStatement insert2 = db.compileStatement(sql2);
         insert2.clearBindings();
         insert2.bindBlob(1, pais);
+        insert2.bindString(2, MainBeacons.BLUE);
         insert2.executeInsert();
 
         SQLiteStatement insert3 = db.compileStatement(sql3);
         insert3.clearBindings();
         insert3.bindBlob(1, op);
+        insert3.bindString(2, MainBeacons.GREEN);
         insert3.executeInsert();
 
     }
@@ -138,4 +142,12 @@ public class MiBD extends SQLiteOpenHelper{
         ps.executeUpdateDelete();
     }
 
+    public Pelicula search(Pelicula p) {
+        String select = "SELECT * FROM peliculas WHERE beacon = ?;";
+        SQLiteStatement ps = db.compileStatement(select);
+        ps.bindString(1, p.getBeaconMac());
+        ps.execute();
+
+        return (Pelicula) peliculaDAO.search(p);
+    }
 }

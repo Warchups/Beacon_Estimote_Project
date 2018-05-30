@@ -1,4 +1,4 @@
-package com.gnommostudios.alertru.beacon_estimote_project
+package com.gnommostudios.alertru.beacon_estimote_project.view
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -19,39 +19,56 @@ import com.github.clans.fab.FloatingActionMenu
 import com.gnommostudios.alertru.beacon_estimote_project.API.MiPeliculaOperacional
 import com.gnommostudios.alertru.beacon_estimote_project.adapter.BeaconListAdapter
 import com.gnommostudios.alertru.beacon_estimote_project.utils.MainBeacons
+import android.content.pm.PackageManager
+import android.os.Build
+import android.annotation.TargetApi
+import android.content.DialogInterface
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import com.gnommostudios.alertru.beacon_estimote_project.R
 
 class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, BeaconManager.ServiceReadyCallback, View.OnClickListener {
 
     companion object {
-        protected val TAG = "RangingMainActivity"
+        private val TAG = "RangingMainActivity"
+        private const val REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 123
     }
 
     private var beaconManager: BeaconManager? = null
     private var beaconRegion: BeaconRegion? = null
     private var relativeLayout: RelativeLayout? = null
     private var listBeacons: ListView? = null
+
     private var floatingActionMenu: FloatingActionMenu? = null
     private var fabRefresh: FloatingActionButton? = null
     private var fabEmit: FloatingActionButton? = null
+    private var fabScan: FloatingActionButton? = null
 
     private var beaconsList: List<Beacon>? = null
 
-    private var miPeliculaOperacional: MiPeliculaOperacional? = null
+    private var mpo: MiPeliculaOperacional? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        miPeliculaOperacional = MiPeliculaOperacional.getInstance(this)
+        if (Build.VERSION.SDK_INT >= 23) {
+            // Marshmallow+ Permission APIs
+            fuckMarshMallow()
+        }
+
+        mpo = MiPeliculaOperacional.getInstance(this)
 
         relativeLayout = findViewById<View>(R.id.relative_fondo) as RelativeLayout
         listBeacons = findViewById<View>(R.id.lista_beacons) as ListView
+
         floatingActionMenu = findViewById<View>(R.id.floating_menu_main) as FloatingActionMenu
         fabRefresh = findViewById<View>(R.id.fab_refresh) as FloatingActionButton
         fabEmit = findViewById<View>(R.id.fab_emit) as FloatingActionButton
+        fabScan = findViewById<View>(R.id.fab_scan) as FloatingActionButton
 
         fabRefresh!!.setOnClickListener(this)
         fabEmit!!.setOnClickListener(this)
+        fabScan!!.setOnClickListener(this)
 
         //verifyBluetooth()
 
@@ -59,6 +76,8 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
                 null, null, null)
         //UUID.fromString(getString(R.string.beacon_uuid))
         beaconManager = BeaconManager(applicationContext)
+
+
     }
 
     override fun onBeaconsDiscovered(beaconRegion: BeaconRegion, beacons: List<Beacon>) {
@@ -106,24 +125,27 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
     }
 
     private fun showBeaconFilms(beacons: List<Beacon>) {
-        here@for (i in beacons.indices) {
+        /*here@for (i in beacons.indices) {
             if (Math.pow(10.0, (beacons[i].measuredPower - beacons[i].rssi) / 20.0) <= 1) {
                 when (beacons[i].macAddress.toString()) {
                     MainBeacons.BLUE -> {
                         Toast.makeText(this, "Azul cerca", Toast.LENGTH_SHORT).show()
+                        beaconManager!!.disconnect()
                         break@here
                     }
                     MainBeacons.PURPLE -> {
                         Toast.makeText(this, "Morado cerca", Toast.LENGTH_SHORT).show()
+                        beaconManager!!.disconnect()
                         break@here
                     }
                     MainBeacons.GREEN -> {
                         Toast.makeText(this, "Verde cerca", Toast.LENGTH_SHORT).show()
+                        beaconManager!!.disconnect()
                         break@here
                     }
                 }
             }
-        }
+        }*/
 
     }
 
@@ -143,6 +165,11 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
                 this@MainActivity.startActivity(intent)
             }
             R.id.fab_refresh -> refresh()
+            R.id.fab_scan -> {
+                beaconManager!!.disconnect()
+                val intent = Intent(this@MainActivity, ScanFilms::class.java)
+                this@MainActivity.startActivity(intent)
+            }
         }
     }
 
@@ -189,5 +216,93 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
 
         }
 
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS -> {
+                val perms = HashMap<String, Int>()
+                // Initial
+                perms[ACCESS_FINE_LOCATION] = PackageManager.PERMISSION_GRANTED
+
+
+                // Fill with results
+                for (i in permissions.indices)
+                    perms[permissions[i]] = grantResults[i]
+
+                // Check for ACCESS_FINE_LOCATION
+                if (perms[ACCESS_FINE_LOCATION] == PackageManager.PERMISSION_GRANTED) {
+                    // All Permissions Granted
+
+                    // Permission Denied
+                    Toast.makeText(this@MainActivity, "All Permission GRANTED !! Thank You :)", Toast.LENGTH_SHORT)
+                            .show()
+
+
+                } else {
+                    // Permission Denied
+                    Toast.makeText(this@MainActivity, "One or More Permissions are DENIED Exiting App :(", Toast.LENGTH_SHORT)
+                            .show()
+
+                    finish()
+                }
+            }
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private fun fuckMarshMallow() {
+        val permissionsNeeded = ArrayList<String>()
+
+        val permissionsList = ArrayList<String>()
+        if (!addPermission(permissionsList, ACCESS_FINE_LOCATION))
+            permissionsNeeded.add("Show Location")
+
+        if (permissionsList.size > 0) {
+            if (permissionsNeeded.size > 0) {
+
+                // Need Rationale
+                var message = "App need access to " + permissionsNeeded[0]
+
+                for (i in 1 until permissionsNeeded.size)
+                    message = message + ", " + permissionsNeeded[i]
+
+                showMessageOKCancel(message,
+                        DialogInterface.OnClickListener { dialog, which ->
+                            requestPermissions(permissionsList.toTypedArray(),
+                                    REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS)
+                        })
+                return
+            }
+            requestPermissions(permissionsList.toTypedArray(),
+                    REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS)
+            return
+        }
+
+        Toast.makeText(this@MainActivity, "No new Permission Required- Launching App .You are Awesome!!", Toast.LENGTH_SHORT)
+                .show()
+    }
+
+    private fun showMessageOKCancel(message: String, okListener: DialogInterface.OnClickListener) {
+        AlertDialog.Builder(this@MainActivity)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show()
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private fun addPermission(permissionsList: MutableList<String>, permission: String): Boolean {
+
+        if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsList.add(permission)
+            // Check for Rationale Option
+            if (!shouldShowRequestPermissionRationale(permission))
+                return false
+        }
+        return true
     }
 }

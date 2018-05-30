@@ -35,4 +35,10 @@ public class MiPeliculaOperacional {
     public void delete(Pelicula p) {
         miBD.deletePelicula(p);
     }
+
+    public Pelicula search(String mac) {
+        Pelicula p = new Pelicula();
+        p.setBeaconMac(mac);
+        return (Pelicula) miBD.getPeliculaDAO().search(p);
+    }
 }
