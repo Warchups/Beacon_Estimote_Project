@@ -28,12 +28,12 @@ class BeaconListAdapter(private val context: Activity, private val elements: Mut
         val rssi = convertView.findViewById<TextView>(R.id.txt_rssi)
         val distanceTxt = convertView.findViewById<TextView>(R.id.txt_distance)
 
-        uuid.text = "UUID: " + element.proximityUUID
-        major.text = "Major: " + element.major
-        minor.text = "Minor: " + element.minor
-        mac.text = "M.A.C.: " + element.macAddress
-        rssi.text = "Rssi: " + element.rssi
-        distanceTxt.text = "Distance: " + decimalFormat.format(Math.pow(10.0, (element.measuredPower - element.rssi) / 20.0)) + "m"
+        uuid.text = "UUID: ${element.proximityUUID}"
+        major.text = "Major: ${element.major}"
+        minor.text = "Minor: ${element.minor}"
+        mac.text = "M.A.C.: ${element.macAddress}"
+        rssi.text = "Rssi: ${element.rssi}"
+        distanceTxt.text = "Distance: ${decimalFormat.format(Math.pow(10.0, (element.measuredPower - element.rssi) / 20.0))}m"
 
         return convertView
     }
