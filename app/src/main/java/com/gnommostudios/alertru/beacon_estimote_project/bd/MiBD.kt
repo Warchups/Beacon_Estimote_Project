@@ -117,15 +117,13 @@ class MiBD private constructor(private val context: Context) : SQLiteOpenHelper(
     }
 
     fun insertFilm(film: Film) {
-        if (filmDAO!!.search(film) == null) {
-            val sql = "INSERT INTO films (title, image) VALUES (?, ?)"
-            val insert = db!!.compileStatement(sql)
-            insert.clearBindings()
-            insert.bindString(1, film.title)
-            insert.bindBlob(2, film.image)
+        val sql = "INSERT INTO films (title, image) VALUES (?, ?)"
+        val insert = db!!.compileStatement(sql)
+        insert.clearBindings()
+        insert.bindString(1, film.title)
+        insert.bindBlob(2, film.image)
 
-            insert.executeInsert()
-        }
+        insert.executeInsert()
     }
 
     fun deleteFilm(film: Film) {
