@@ -18,7 +18,7 @@ class BeaconListAdapter(private val context: Activity, private val elements: Mut
     private val decimalFormat = DecimalFormat("0.00")
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+        var convertView: View?
         val inflater = context.layoutInflater
         convertView = inflater.inflate(R.layout.element_list, null)
         val element = elements[position]
