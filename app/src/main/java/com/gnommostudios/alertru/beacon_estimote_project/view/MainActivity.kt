@@ -116,7 +116,6 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
                 else -> relativeLayout!!.setBackgroundColor(Color.BLACK)
             }
 
-            showBeaconFilms(beacons)
         } else {
             relativeLayout!!.setBackgroundColor(Color.WHITE)
             Log.i(TAG, "No hay beacons cerca.")
@@ -125,35 +124,10 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
         beaconsList = beacons
     }
 
-    private fun showBeaconFilms(beacons: List<Beacon>) {
-        /*here@for (i in beacons.indices) {
-            if (Math.pow(10.0, (beacons[i].measuredPower - beacons[i].rssi) / 20.0) <= 1) {
-                when (beacons[i].macAddress.toString()) {
-                    MainBeacons.BLUE -> {
-                        Toast.makeText(this, "Azul cerca", Toast.LENGTH_SHORT).show()
-                        beaconManager!!.disconnect()
-                        break@here
-                    }
-                    MainBeacons.PURPLE -> {
-                        Toast.makeText(this, "Morado cerca", Toast.LENGTH_SHORT).show()
-                        beaconManager!!.disconnect()
-                        break@here
-                    }
-                    MainBeacons.GREEN -> {
-                        Toast.makeText(this, "Verde cerca", Toast.LENGTH_SHORT).show()
-                        beaconManager!!.disconnect()
-                        break@here
-                    }
-                }
-            }
-        }*/
-
-    }
-
     override fun onServiceReady() {
         beaconManager!!.setRangingListener(this)
 
-        //beaconManager!!.setBackgroundScanPeriod(3000, 3000)
+        beaconManager!!.setBackgroundScanPeriod(3000, 3000)
 
         beaconManager!!.startRanging(beaconRegion)
     }
