@@ -21,20 +21,20 @@ import com.gnommostudios.alertru.beacon_estimote_project.R
 
 class EmitAsBeacon : AppCompatActivity(), View.OnClickListener {
 
-    var switchOn: Switch? = null
+    private var switchOn: Switch? = null
 
-    var txtId1: EditText? = null
-    var txtId2: EditText? = null
-    var txtId3: EditText? = null
-    var txtPower: EditText? = null
+    private var txtId1: EditText? = null
+    private var txtId2: EditText? = null
+    private var txtId3: EditText? = null
+    private var txtPower: EditText? = null
 
-    var spinnerAdvertisement: MaterialSpinner? = null
-    var spinnerPower: MaterialSpinner? = null
-    var spinnerFormat: MaterialSpinner? = null
+    private var spinnerAdvertisement: MaterialSpinner? = null
+    private var spinnerPower: MaterialSpinner? = null
+    private var spinnerFormat: MaterialSpinner? = null
 
     var beacon: Beacon? = null
-    var beaconParser: BeaconParser? = null
-    var beaconTransmitter: BeaconTransmitter? = null
+    private var beaconParser: BeaconParser? = null
+    private var beaconTransmitter: BeaconTransmitter? = null
 
     private val advertiseCallback = object : AdvertiseCallback() {
 
@@ -175,13 +175,3 @@ class EmitAsBeacon : AppCompatActivity(), View.OnClickListener {
     }
 
 }
- /*, object : AdvertiseCallback() {
-
-                                override fun onStartFailure(errorCode: Int) {
-                                    Log.i("Hola", "Advertisement start failed with code: $errorCode")
-                                }
-
-                                override fun onStartSuccess(settingsInEffect: AdvertiseSettings) {
-                                    Log.i("Hola", "Advertisement start succeeded.")
-                                }
-                            }*/

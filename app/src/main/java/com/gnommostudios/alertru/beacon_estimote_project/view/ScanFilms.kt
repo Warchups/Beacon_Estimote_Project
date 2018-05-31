@@ -21,7 +21,7 @@ import java.util.*
 class ScanFilms : AppCompatActivity(), BeaconManager.BeaconRangingListener, BeaconManager.ServiceReadyCallback {
 
     companion object {
-        private val TAG = "RangingScanFilms"
+        private const val TAG = "RangingScanFilms"
     }
 
     private var backgroundScan: ConstraintLayout? = null
@@ -69,7 +69,7 @@ class ScanFilms : AppCompatActivity(), BeaconManager.BeaconRangingListener, Beac
                 if (Math.pow(10.0, (beacon.measuredPower - beacon.rssi) / 20.0) < Math.pow(10.0, (nearlyBeacon.measuredPower - nearlyBeacon.rssi) / 20.0)) {
                     nearlyBeacon = beacon
                 }
-                Log.i("Estimote", beacons[i].macAddress.toString() + " - " + beacons[i].rssi)
+                Log.i(TAG, beacons[i].macAddress.toString() + " - " + beacons[i].rssi)
             }
 
             showBeaconFilm(nearlyBeacon)

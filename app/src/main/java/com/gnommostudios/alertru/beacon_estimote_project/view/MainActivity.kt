@@ -30,7 +30,7 @@ import java.util.*
 class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, BeaconManager.ServiceReadyCallback, View.OnClickListener {
 
     companion object {
-        private val TAG = "RangingMainActivity"
+        private const val TAG = "RangingMainActivity"
         private const val REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 123
     }
 
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
                 if (Math.pow(10.0, (beacon.measuredPower - beacon.rssi) / 20.0) < Math.pow(10.0, (nearlyBeacon.measuredPower - nearlyBeacon.rssi) / 20.0)) {
                     nearlyBeacon = beacon
                 }
-                Log.i("Estimote", beacons[i].macAddress.toString() + " - " + beacons[i].rssi)
+                Log.i(TAG, beacons[i].macAddress.toString() + " - " + beacons[i].rssi)
             }
 
             when (nearlyBeacon.macAddress.toString()) {
@@ -148,6 +148,11 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
         }
     }
 
+    override fun onStop() {
+        beaconManager!!.stopRanging(beaconRegion)
+        super.onStop()
+    }
+
     override fun onResume() {
         beaconManager!!.connect(this)
         super.onResume()
@@ -159,9 +164,9 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
     }
 
     private fun refresh() {
-        beaconManager!!.disconnect()
+        beaconManager!!.stopRanging(beaconRegion)
         beaconsList = null
-        beaconManager!!.connect(this)
+        beaconManager!!.startRanging(beaconRegion)
     }
 
     private fun verifyBluetooth() {
