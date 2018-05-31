@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
     private var fabEmit: FloatingActionButton? = null
     private var fabScan: FloatingActionButton? = null
 
-    private var beaconsList: List<Beacon>? = null
+    private var beaconsList: MutableList<Beacon>? = null
 
     private var mof: MyOperationalFilm? = null
 
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
     override fun onBeaconsDiscovered(beaconRegion: BeaconRegion, beacons: List<Beacon>) {
         if (beaconsList == null) {
             Log.i("Hola", "Es la primera")
-            beaconsList = beacons
+            beaconsList = beacons as MutableList<Beacon>
             listBeacons!!.adapter = BeaconListAdapter(this@MainActivity, beaconsList!!)
         } else {
             this@MainActivity.runOnUiThread {
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
             Log.i(TAG, "No hay beacons cerca.")
         }
 
-        beaconsList = beacons
+        beaconsList = beacons as MutableList<Beacon>
     }
 
     override fun onServiceReady() {
