@@ -36,7 +36,6 @@ class EmitAsBeacon : AppCompatActivity(), View.OnClickListener {
     var beaconParser: BeaconParser? = null
     var beaconTransmitter: BeaconTransmitter? = null
 
-
     private val advertiseCallback = object : AdvertiseCallback() {
 
         override fun onStartFailure(errorCode: Int) {

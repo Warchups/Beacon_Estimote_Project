@@ -16,7 +16,7 @@ import com.estimote.coresdk.recognition.packets.Beacon
 import com.estimote.coresdk.service.BeaconManager
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
-import com.gnommostudios.alertru.beacon_estimote_project.API.MiPeliculaOperacional
+import com.gnommostudios.alertru.beacon_estimote_project.API.MyOperationalFilm
 import com.gnommostudios.alertru.beacon_estimote_project.adapter.BeaconListAdapter
 import com.gnommostudios.alertru.beacon_estimote_project.utils.MainBeacons
 import android.content.pm.PackageManager
@@ -25,6 +25,7 @@ import android.annotation.TargetApi
 import android.content.DialogInterface
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import com.gnommostudios.alertru.beacon_estimote_project.R
+import java.util.*
 
 class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, BeaconManager.ServiceReadyCallback, View.OnClickListener {
 
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
 
     private var beaconsList: List<Beacon>? = null
 
-    private var mpo: MiPeliculaOperacional? = null
+    private var mof: MyOperationalFilm? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
             fuckMarshMallow()
         }
 
-        mpo = MiPeliculaOperacional.getInstance(this)
+        mof = MyOperationalFilm.getInstance(this)
 
         relativeLayout = findViewById<View>(R.id.relative_fondo) as RelativeLayout
         listBeacons = findViewById<View>(R.id.lista_beacons) as ListView

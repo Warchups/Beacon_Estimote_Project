@@ -88,21 +88,21 @@ class ScanFilms : AppCompatActivity(), BeaconManager.BeaconRangingListener, Beac
         if (Math.pow(10.0, (nearlyBeacon.measuredPower - nearlyBeacon.rssi) / 20.0) <= 1) {
             if (lastMAC == null) {
                 lastMAC = nearlyBeacon.macAddress.toString()
-                frgDetail!!.showFilm(nearlyBeacon.macAddress.toString())
+                frgDetail!!.showFilm(nearlyBeacon)
             }
 
             if (!lastMAC.equals(nearlyBeacon.macAddress.toString()))
-                frgDetail!!.showFilm(nearlyBeacon.macAddress.toString())
+                frgDetail!!.showFilm(nearlyBeacon)
 
             lastMAC = nearlyBeacon.macAddress.toString()
         } else {
             if (lastMAC == null) {
                 lastMAC = MainBeacons.EMPTY
-                frgDetail!!.showFilm(MainBeacons.EMPTY)
+                frgDetail!!.showFilm()
             }
 
             if (!lastMAC.equals(MainBeacons.EMPTY))
-                frgDetail!!.showFilm(MainBeacons.EMPTY)
+                frgDetail!!.showFilm()
 
             lastMAC = MainBeacons.EMPTY
         }
