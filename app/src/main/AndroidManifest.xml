@@ -25,7 +25,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.EmitAsBeacon" />
-        <activity android:name=".view.ScanFilms"></activity>
+        <activity android:name=".view.ScanFilms" />
+        <activity android:name=".view.FavouritesActivity" />
+        <activity
+            android:name=".view.FavouriteDetailActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

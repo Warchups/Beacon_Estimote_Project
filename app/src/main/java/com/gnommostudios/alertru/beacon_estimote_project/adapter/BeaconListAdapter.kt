@@ -11,14 +11,14 @@ import com.gnommostudios.alertru.beacon_estimote_project.R
 
 import java.text.DecimalFormat
 
-class BeaconListAdapter(private val context: Activity, private val elements: MutableList<Beacon>) : ArrayAdapter<Beacon>(context, R.layout.element_list, elements) {
+class BeaconListAdapter(private val context: Activity, private val elements: MutableList<Beacon>) : ArrayAdapter<Beacon>(context, R.layout.element_list_beacon, elements) {
 
     private val decimalFormat = DecimalFormat("0.00")
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val convertView: View?
         val inflater = context.layoutInflater
-        convertView = inflater.inflate(R.layout.element_list, null)
+        convertView = inflater.inflate(R.layout.element_list_beacon, null)
         val element = elements[position]
 
         val uuid = convertView!!.findViewById<TextView>(R.id.txt_uuid)

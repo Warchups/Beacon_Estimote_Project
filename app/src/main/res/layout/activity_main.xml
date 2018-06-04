@@ -41,6 +41,14 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_favs"
+                app:fab_label="Favs"
+                app:fab_size="mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_star_24" />
+
+            <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_scan"
                 app:fab_label="Scan Films"
                 app:fab_size="mini"

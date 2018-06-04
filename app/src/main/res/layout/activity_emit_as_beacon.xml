@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="80dp" />
+        app:layout_constraintGuide_percent="0.1" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/text_input_layout"
@@ -137,7 +137,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_input_layout_4">
 
@@ -150,7 +150,7 @@
             android:id="@+id/spinner_advertisements"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/advertisements_array"/>
+            android:entries="@array/advertisements_array" />
 
     </LinearLayout>
 
@@ -162,7 +162,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_layout">
 
@@ -175,7 +175,7 @@
             android:id="@+id/spinner_power"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/power_array"/>
+            android:entries="@array/power_array" />
 
     </LinearLayout>
 
@@ -187,7 +187,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_layout_2">
 
@@ -200,14 +200,14 @@
             android:id="@+id/spinner_format"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/format_array"/>
+            android:entries="@array/format_array" />
 
     </LinearLayout>
 
     <Switch
         android:id="@+id/switch_on"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -215,6 +215,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_layout_3" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
 
 </android.support.constraint.ConstraintLayout>

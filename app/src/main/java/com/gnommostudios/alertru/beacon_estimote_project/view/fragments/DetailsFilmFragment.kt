@@ -15,6 +15,7 @@ import com.estimote.coresdk.recognition.packets.Beacon
 import com.gnommostudios.alertru.beacon_estimote_project.API.MyOperationalFilm
 
 import com.gnommostudios.alertru.beacon_estimote_project.R
+import com.gnommostudios.alertru.beacon_estimote_project.pojo.Film
 import java.text.DecimalFormat
 
 class DetailsFilmFragment : Fragment(), View.OnClickListener {
@@ -34,7 +35,15 @@ class DetailsFilmFragment : Fragment(), View.OnClickListener {
     private var rssiFilm: TextView? = null
     private var distanceFilm: TextView? = null
 
+    private var addFav: ImageView? = null
+
     private var mof: MyOperationalFilm? = null
+
+    private var beacon: Beacon? = null
+
+    private var isFavourite: Boolean = false
+
+    private var film: Film? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,6 +53,8 @@ class DetailsFilmFragment : Fragment(), View.OnClickListener {
 
         cover = view.findViewById<View>(R.id.cover) as ImageView
         searchLayout = view.findViewById<View>(R.id.search_layout) as LinearLayout
+        addFav = view.findViewById<View>(R.id.add_fav) as ImageView
+        addFav!!.setOnClickListener(this)
 
         if (activity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             detailsLayout = view.findViewById<View>(R.id.details_layout) as LinearLayout
@@ -62,6 +73,7 @@ class DetailsFilmFragment : Fragment(), View.OnClickListener {
 
         searchLayout!!.visibility = View.VISIBLE
         cover!!.visibility = View.GONE
+        addFav!!.visibility = View.GONE
 
         return view
     }
@@ -74,6 +86,17 @@ class DetailsFilmFragment : Fragment(), View.OnClickListener {
                 //send broadcast
                 context.applicationContext.sendBroadcast(intent)
             }
+            R.id.add_fav -> {
+                isFavourite = mof!!.isFavourite(film!!)
+
+                if (!isFavourite) {
+                    mof!!.addFav(beacon!!)
+                    addFav!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_selected_24))
+                } else {
+                    mof!!.deleteFav(mof!!.searchFav(film!!.id))
+                    addFav!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_unselected_24))
+                }
+            }
         }
     }
 
@@ -84,14 +107,18 @@ class DetailsFilmFragment : Fragment(), View.OnClickListener {
 
         searchLayout!!.visibility = View.VISIBLE
         cover!!.visibility = View.GONE
+        addFav!!.visibility = View.GONE
     }
 
     fun showFilm(beacon: Beacon) {
-        var film = mof!!.search(beacon.macAddress.toString())
-        Glide.with(context).load(film.image).asBitmap().into(cover)
+        this.beacon = beacon
+
+        film = mof!!.searchFilm(beacon.macAddress.toString())
+        val imageResource = resources.getIdentifier(film!!.image, null, activity.packageName)
+        Glide.with(context).load(imageResource).into(cover)
 
         if (activity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            titleFilm!!.text = film.title
+            titleFilm!!.text = film!!.title
             macFilm!!.text = beacon.macAddress.toString()
             uuidFilm!!.text = beacon.proximityUUID.toString()
             majorFilm!!.text = "Major: ${beacon.major}"
@@ -104,6 +131,12 @@ class DetailsFilmFragment : Fragment(), View.OnClickListener {
 
         searchLayout!!.visibility = View.GONE
         cover!!.visibility = View.VISIBLE
+        addFav!!.visibility = View.VISIBLE
+
+        if (!mof!!.isFavourite(film!!))
+            addFav!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_unselected_24))
+        else
+            addFav!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_selected_24))
     }
 
 }

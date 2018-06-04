@@ -24,6 +24,7 @@ import android.os.Build
 import android.annotation.TargetApi
 import android.content.DialogInterface
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import com.appus.splash.Splash
 import com.gnommostudios.alertru.beacon_estimote_project.R
 import java.util.*
 
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
     private var fabRefresh: FloatingActionButton? = null
     private var fabEmit: FloatingActionButton? = null
     private var fabScan: FloatingActionButton? = null
+    private var fabFav: FloatingActionButton? = null
 
     private var beaconsList: MutableList<Beacon>? = null
 
@@ -51,6 +53,13 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        Splash.Builder(this, supportActionBar)
+                .setSplashImage(resources.getDrawable(R.drawable.beacon_splash))
+                .setBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
+                .setSplashImageColor(android.R.color.transparent)
+                .perform()
+
 
         if (Build.VERSION.SDK_INT >= 23) {
             // Marshmallow+ Permission APIs
@@ -66,10 +75,12 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
         fabRefresh = findViewById<View>(R.id.fab_refresh) as FloatingActionButton
         fabEmit = findViewById<View>(R.id.fab_emit) as FloatingActionButton
         fabScan = findViewById<View>(R.id.fab_scan) as FloatingActionButton
+        fabFav = findViewById<View>(R.id.fab_favs) as FloatingActionButton
 
         fabRefresh!!.setOnClickListener(this)
         fabEmit!!.setOnClickListener(this)
         fabScan!!.setOnClickListener(this)
+        fabFav!!.setOnClickListener(this)
 
         //verifyBluetooth()
 
@@ -143,6 +154,11 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
             R.id.fab_scan -> {
                 beaconManager!!.disconnect()
                 val intent = Intent(this@MainActivity, ScanFilms::class.java)
+                this@MainActivity.startActivity(intent)
+            }
+            R.id.fab_favs -> {
+                beaconManager!!.disconnect()
+                val intent = Intent(this@MainActivity, FavouritesActivity::class.java)
                 this@MainActivity.startActivity(intent)
             }
         }

@@ -4,7 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="verde">#009900</color>
-    <color name="azul">#0000EE</color>
-    <color name="morao">#EE00EE</color>
+    <color name="green">#009900</color>
+    <color name="blue">#0000EE</color>
+    <color name="purple">#EE00EE</color>
+
+    <color name="statusBar">#282828</color>
+
+    <color name="star">#ffd100</color>
 </resources>

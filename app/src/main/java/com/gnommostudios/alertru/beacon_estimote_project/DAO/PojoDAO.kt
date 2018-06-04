@@ -4,8 +4,14 @@ import java.util.ArrayList
 
 interface PojoDAO {
 
-    val all: ArrayList<*>
+    val allFilms: ArrayList<*>
 
-    fun search(obj: Any): Any
+    fun searchFilm(obj: Any): Any
+
+    val allFavs: ArrayList<*>
+
+    fun searchFav(obj: Any): Any
+
+    fun existFav(obj: Any): Boolean
 
 }
