@@ -3,94 +3,179 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="280dp"
     android:background="@android:color/transparent"
-    android:paddingHorizontal="8dp"
-    android:paddingVertical="4dp">
+    android:elevation="15dp"
+    android:orientation="horizontal"
+    android:paddingTop="8dp">
+
+    <ImageView
+        android:id="@+id/fav_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="1dp"
+        android:layout_marginTop="1dp"
+        android:elevation="15dp"
+        android:src="@drawable/baseline_star_unselected_24"
+        app:layout_constraintEnd_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toTopOf="@+id/cardView" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="118dp"
+        android:layout_height="175dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="14dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/image_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher" />
+
+    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
-        app:cardBackgroundColor="#f2e9e5">
+        android:layout_height="150dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.764">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/txt_uuid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="UUID"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txt_maj"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="MAJOR"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_uuid" />
-
-            <TextView
-                android:id="@+id/txt_min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="MINUM"
-                app:layout_constraintStart_toEndOf="@+id/txt_maj"
-                app:layout_constraintTop_toTopOf="@+id/txt_maj" />
-
-            <TextView
-                android:id="@+id/txt_mac"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="MAC"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_maj" />
-
-            <TextView
-                android:id="@+id/txt_rssi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="145dp"
                 android:layout_marginTop="8dp"
-                android:text="RSSI"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_mac" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/txt_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="DISTANCE"
-                app:layout_constraintStart_toEndOf="@+id/txt_rssi"
-                app:layout_constraintTop_toTopOf="@+id/txt_rssi" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-            <!--<TextView
-                android:id="@+id/txt_url"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="URL"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_rssi" />-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/title_main"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Title"
+                            android:textColor="#333338"
+                            android:textSize="12dp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/uuid_main"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="uuid"
+                                android:textColor="#2d2d2d"
+                                android:textSize="10dp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0.7dp"
+                    android:background="#29000000" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/major_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="Major"
+                        android:textSize="10dp" />
+
+                    <TextView
+                        android:id="@+id/minor_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="Minor"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/mac_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MAC"
+                    android:textSize="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/rssi_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="RSSI"
+                        android:textSize="10dp" />
+
+                    <TextView
+                        android:id="@+id/distance_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="DISTANCE"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>
 

@@ -58,10 +58,10 @@ class MyOperationalFilm private constructor(context: Context) {
         }
     }
 
-    fun searchFav(film: Int): Favourite {
+    fun searchFav(film: Int): Favourite? {
         var fav = Favourite()
         fav.film = film
-        return miBD.getFilmDAO()!!.searchFav(fav) as Favourite
+        return miBD.getFilmDAO()!!.searchFav(fav)
     }
 
     fun isFavourite(film: Film): Boolean = miBD.getFilmDAO()!!.existFav(film)

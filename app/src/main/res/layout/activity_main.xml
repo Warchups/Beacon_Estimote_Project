@@ -42,15 +42,13 @@
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_favs"
-                app:fab_label="Favs"
                 app:fab_size="mini"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/baseline_star_24" />
+                android:src="@drawable/outline_star_border_24" />
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_scan"
-                app:fab_label="Scan Films"
                 app:fab_size="mini"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +56,6 @@
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_emit"
-                app:fab_label="Emit as Beacon"
                 app:fab_size="mini"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,7 +63,6 @@
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_refresh"
-                app:fab_label="Refresh"
                 app:fab_size="mini"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

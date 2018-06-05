@@ -10,7 +10,7 @@ interface PojoDAO {
 
     val allFavs: ArrayList<*>
 
-    fun searchFav(obj: Any): Any
+    fun searchFav(obj: Any): Any?
 
     fun existFav(obj: Any): Boolean
 

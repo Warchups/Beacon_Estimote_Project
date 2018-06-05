@@ -18,11 +18,13 @@ import com.gnommostudios.alertru.beacon_estimote_project.API.MyOperationalFilm
 import com.gnommostudios.alertru.beacon_estimote_project.R
 import com.gnommostudios.alertru.beacon_estimote_project.pojo.Favourite
 import com.gnommostudios.alertru.beacon_estimote_project.pojo.Film
+import com.gnommostudios.alertru.beacon_estimote_project.pojo.MyBeacon
 
 class FavouriteDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
 
     private var favourite: Favourite? = null
     private var film: Film? = null
+    private var myBeacon: MyBeacon? = null
 
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var coordinator: CoordinatorLayout? = null
@@ -66,8 +68,17 @@ class FavouriteDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChange
         width = metrics.widthPixels // ancho absoluto en pixels
         height = metrics.heightPixels // alto absoluto en pixels
 
-        favourite = intent.extras.getSerializable("FAVOURITE") as Favourite
-        film = mof!!.searchFilm(favourite!!.mac!!)
+        isFavourite =
+                if (intent.extras.getBoolean("IS_FAV")) {
+                    favourite = intent.extras.getSerializable("FAVOURITE") as Favourite
+                    film = mof!!.searchFilm(favourite!!.mac!!)
+                    true
+                } else {
+                    myBeacon = intent.extras.getSerializable("MY_BEACON") as MyBeacon
+                    film = mof!!.searchFilm(myBeacon!!.mac!!)
+                    favourite = Favourite(film!!.id, myBeacon!!.uuid, myBeacon!!.major, myBeacon!!.minor, myBeacon!!.mac)
+                    false
+                }
 
         collapsingToolbarLayout = findViewById(R.id.collapsingToolbar)
         collapsingToolbarLayout!!.isTitleEnabled = false
@@ -100,17 +111,33 @@ class FavouriteDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChange
         minorDetail = findViewById(R.id.minor_detail)
         macDetail = findViewById(R.id.mac_detail)
 
-        val imageResource = resources.getIdentifier(film!!.image, null, packageName)
+        if (isFavourite) {
+            favButton!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_selected_24))
+            val imageResource = resources.getIdentifier(film!!.image, null, packageName)
 
-        Glide.with(this).load(imageResource).into(imageDetail)
-        Glide.with(this).load(imageResource).into(coverDetailFloat)
-        Glide.with(this).load(imageResource).into(coverDetailFixed)
+            Glide.with(this).load(imageResource).into(imageDetail)
+            Glide.with(this).load(imageResource).into(coverDetailFloat)
+            Glide.with(this).load(imageResource).into(coverDetailFixed)
 
-        titleDetail!!.text = film!!.title
-        uuidDetail!!.text = favourite!!.uuid
-        majorDetail!!.text = "Major: ${favourite!!.major}"
-        minorDetail!!.text = "Minor: ${favourite!!.minor}"
-        macDetail!!.text = favourite!!.mac
+            titleDetail!!.text = film!!.title
+            uuidDetail!!.text = favourite!!.uuid
+            majorDetail!!.text = "Major: ${favourite!!.major}"
+            minorDetail!!.text = "Minor: ${favourite!!.minor}"
+            macDetail!!.text = favourite!!.mac
+        } else {
+            favButton!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_unselected_24))
+            val imageResource = resources.getIdentifier(myBeacon!!.image, null, packageName)
+
+            Glide.with(this).load(imageResource).into(imageDetail)
+            Glide.with(this).load(imageResource).into(coverDetailFloat)
+            Glide.with(this).load(imageResource).into(coverDetailFixed)
+
+            titleDetail!!.text = myBeacon!!.title
+            uuidDetail!!.text = myBeacon!!.uuid
+            majorDetail!!.text = "Major: ${myBeacon!!.major}"
+            minorDetail!!.text = "Minor: ${myBeacon!!.minor}"
+            macDetail!!.text = myBeacon!!.mac
+        }
     }
 
     override fun onClick(v: View?) {
@@ -119,11 +146,10 @@ class FavouriteDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChange
                 isFavourite = mof!!.isFavourite(film!!)
 
                 if (!isFavourite) {
-
                     mof!!.addFav(favourite!!)
                     favButton!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_selected_24))
                 } else {
-                    mof!!.deleteFav(mof!!.searchFav(film!!.id))
+                    mof!!.deleteFav(mof!!.searchFav(film!!.id)!!)
                     favButton!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_unselected_24))
                 }
             }

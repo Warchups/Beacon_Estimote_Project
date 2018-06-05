@@ -51,7 +51,7 @@ class FilmDAO : PojoDAO {
             return listFavs
 
         }
-    override fun searchFav(obj: Any): Any {
+    override fun searchFav(obj: Any): Favourite? {
         val fav = obj as Favourite
         val condition = "film = " + fav.film
 
@@ -68,9 +68,10 @@ class FilmDAO : PojoDAO {
             newFav.major = cursor.getInt(3)
             newFav.minor = cursor.getInt(4)
             newFav.mac = cursor.getString(5)
+
         }
 
-        return newFav as Any
+        return newFav
     }
 
     override val allFilms: ArrayList<*>

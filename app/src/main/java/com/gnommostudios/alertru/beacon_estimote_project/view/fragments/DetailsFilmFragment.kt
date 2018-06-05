@@ -93,7 +93,7 @@ class DetailsFilmFragment : Fragment(), View.OnClickListener {
                     mof!!.addFav(beacon!!)
                     addFav!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_selected_24))
                 } else {
-                    mof!!.deleteFav(mof!!.searchFav(film!!.id))
+                    mof!!.deleteFav(mof!!.searchFav(film!!.id)!!)
                     addFav!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_unselected_24))
                 }
             }

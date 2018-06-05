@@ -2,7 +2,6 @@ package com.gnommostudios.alertru.beacon_estimote_project.view
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -18,17 +17,19 @@ import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 import com.gnommostudios.alertru.beacon_estimote_project.API.MyOperationalFilm
 import com.gnommostudios.alertru.beacon_estimote_project.adapter.BeaconListAdapter
-import com.gnommostudios.alertru.beacon_estimote_project.utils.MainBeacons
 import android.content.pm.PackageManager
 import android.os.Build
 import android.annotation.TargetApi
 import android.content.DialogInterface
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.widget.AdapterView
 import com.appus.splash.Splash
 import com.gnommostudios.alertru.beacon_estimote_project.R
+import com.gnommostudios.alertru.beacon_estimote_project.pojo.MyBeacon
 import java.util.*
+import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, BeaconManager.ServiceReadyCallback, View.OnClickListener {
+class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, BeaconManager.ServiceReadyCallback, View.OnClickListener, AdapterView.OnItemClickListener {
 
     companion object {
         private const val TAG = "RangingMainActivity"
@@ -46,9 +47,11 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
     private var fabScan: FloatingActionButton? = null
     private var fabFav: FloatingActionButton? = null
 
-    private var beaconsList: MutableList<Beacon>? = null
+    private var beaconsArrayList: ArrayList<MyBeacon>? = null
 
     private var mof: MyOperationalFilm? = null
+
+    private var showFavourites: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +63,6 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
                 .setSplashImageColor(android.R.color.transparent)
                 .perform()
 
-
         if (Build.VERSION.SDK_INT >= 23) {
             // Marshmallow+ Permission APIs
             fuckMarshMallow()
@@ -70,6 +72,7 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
 
         relativeLayout = findViewById<View>(R.id.relative_fondo) as RelativeLayout
         listBeacons = findViewById<View>(R.id.lista_beacons) as ListView
+        listBeacons!!.onItemClickListener = this
 
         floatingActionMenu = findViewById<View>(R.id.floating_menu_main) as FloatingActionMenu
         fabRefresh = findViewById<View>(R.id.fab_refresh) as FloatingActionButton
@@ -81,43 +84,53 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
         fabEmit!!.setOnClickListener(this)
         fabScan!!.setOnClickListener(this)
         fabFav!!.setOnClickListener(this)
+        fabFav!!.setImageDrawable(resources.getDrawable(R.drawable.outline_star_border_24))
 
         //verifyBluetooth()
 
         beaconRegion = BeaconRegion("Beacons with default Estimote UUID",
-                null, null, null)
+                UUID.fromString(getString(R.string.beacon_uuid)), null, null)
         //UUID.fromString(getString(R.string.beacon_uuid))
         beaconManager = BeaconManager(applicationContext)
-
 
     }
 
     override fun onBeaconsDiscovered(beaconRegion: BeaconRegion, beacons: List<Beacon>) {
-        if (beaconsList == null) {
+        if (beaconsArrayList == null) {
             Log.i("Hola", "Es la primera")
-            beaconsList = beacons as MutableList<Beacon>
-            listBeacons!!.adapter = BeaconListAdapter(this@MainActivity, beaconsList!!)
+            beaconsArrayList = ArrayList()
+            listBeacons!!.adapter = BeaconListAdapter(this@MainActivity, beaconsArrayList!!, mof!!)
         } else {
             this@MainActivity.runOnUiThread {
                 var adapter = listBeacons!!.adapter as BeaconListAdapter
-                //adapter!!.setBeacons(beaconsList!!)
-                adapter!!.updateBeaconList(beaconsList!!)
+                //adapter!!.setBeacons(beaconsArrayList!!)
+                adapter!!.updateBeaconList(beaconsArrayList!!)
                 Log.i("Hola", "No es la primera")
             }
         }
 
         if (beacons.isNotEmpty()) {
-            var nearlyBeacon = beacons[0]
+            //var nearlyBeacon = beacons[0]
 
+            beaconsArrayList!!.clear()
             for (i in beacons.indices) {
                 val beacon = beacons[i]
-                if (Math.pow(10.0, (beacon.measuredPower - beacon.rssi) / 20.0) < Math.pow(10.0, (nearlyBeacon.measuredPower - nearlyBeacon.rssi) / 20.0)) {
-                    nearlyBeacon = beacon
+                val film = mof!!.searchFilm(beacon.macAddress.toString())
+                if (showFavourites) {
+                    var favourite = mof!!.searchFav(film!!.id)
+                    if (favourite != null) {
+                        beaconsArrayList!!.add(MyBeacon(film, beacon))
+                    }
+                } else {
+                    beaconsArrayList!!.add(MyBeacon(film, beacon))
                 }
+                /*if (Math.pow(10.0, (beacon.measuredPower - beacon.rssi) / 20.0) < Math.pow(10.0, (nearlyBeacon.measuredPower - nearlyBeacon.rssi) / 20.0)) {
+                    nearlyBeacon = beacon
+                }*/
                 Log.i(TAG, beacons[i].macAddress.toString() + " - " + beacons[i].rssi)
             }
 
-            when (nearlyBeacon.macAddress.toString()) {
+            /*when (nearlyBeacon.macAddress.toString()) {
                 MainBeacons.BLUE ->
                     relativeLayout!!.setBackgroundColor(Color.parseColor("#1ccef2"))
                 MainBeacons.PURPLE ->
@@ -125,14 +138,13 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
                 MainBeacons.GREEN ->
                     relativeLayout!!.setBackgroundColor(Color.parseColor("#d0e0b8"))
                 else -> relativeLayout!!.setBackgroundColor(Color.BLACK)
-            }
+            }*/
 
         } else {
-            relativeLayout!!.setBackgroundColor(Color.WHITE)
+            //relativeLayout!!.setBackgroundColor(Color.WHITE)
+            beaconsArrayList!!.clear()
             Log.i(TAG, "No hay beacons cerca.")
         }
-
-        beaconsList = beacons as MutableList<Beacon>
     }
 
     override fun onServiceReady() {
@@ -157,9 +169,16 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
                 this@MainActivity.startActivity(intent)
             }
             R.id.fab_favs -> {
-                beaconManager!!.disconnect()
+                /*beaconManager!!.disconnect()
                 val intent = Intent(this@MainActivity, FavouritesActivity::class.java)
-                this@MainActivity.startActivity(intent)
+                this@MainActivity.startActivity(intent)*/
+                showFavourites = if (showFavourites) {
+                    fabFav!!.setImageDrawable(resources.getDrawable(R.drawable.outline_star_border_24))
+                    false
+                } else {
+                    fabFav!!.setImageDrawable(resources.getDrawable(R.drawable.baseline_star_24))
+                    true
+                }
             }
         }
     }
@@ -179,9 +198,21 @@ class MainActivity : AppCompatActivity(), BeaconManager.BeaconRangingListener, B
         super.onDestroy()
     }
 
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+        var intent = Intent(MainActivity@this, FavouriteDetailActivity::class.java)
+        if (mof!!.searchFav(beaconsArrayList!![pos].idFilm!!) != null) {
+            intent!!.putExtra("IS_FAV", true)
+            intent!!.putExtra("FAVOURITE", mof!!.searchFav(beaconsArrayList!![pos].idFilm!!))
+        } else {
+            intent!!.putExtra("IS_FAV", false)
+            intent!!.putExtra("MY_BEACON", beaconsArrayList!![pos])
+        }
+        startActivity(intent)
+    }
+
     private fun refresh() {
         beaconManager!!.stopRanging(beaconRegion)
-        beaconsList = null
+        beaconsArrayList = null
         beaconManager!!.startRanging(beaconRegion)
     }
 
