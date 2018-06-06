@@ -150,6 +150,26 @@
                             android:textSize="16dp" />
 
                         <TextView
+                            android:id="@+id/director_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:text="DIRECTOR"
+                            android:textColor="#3c3c3c"
+                            android:textSize="12dp"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/players_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:text="PLAYERS"
+                            android:textColor="#3c3c3c"
+                            android:textSize="12dp"
+                            android:visibility="gone"/>
+
+                        <TextView
                             android:id="@+id/uuid_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

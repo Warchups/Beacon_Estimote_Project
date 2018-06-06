@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gnommostudios.alertru.beacon_estimote_project.view.fragments.DetailsFilmFragment">
+    tools:context="com.gnommostudios.beacon_estimote_project.view.fragments.DetailsFilmFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,7 +25,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/dunkerque"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

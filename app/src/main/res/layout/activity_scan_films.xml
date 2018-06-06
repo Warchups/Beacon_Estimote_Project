@@ -5,12 +5,12 @@
     android:id="@+id/background_scan"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gnommostudios.alertru.beacon_estimote_project.view.ScanFilms">
+    tools:context="com.gnommostudios.beacon_estimote_project.view.ScanFilms">
 
     <fragment
         android:id="@+id/fragment_details_film"
-        android:name="com.gnommostudios.alertru.beacon_estimote_project.view.fragments.DetailsFilmFragment"
-        class="com.gnommostudios.alertru.beacon_estimote_project.view.fragments.DetailsFilmFragment"
+        android:name="com.gnommostudios.beacon_estimote_project.view.fragments.DetailsFilmFragment"
+        class="com.gnommostudios.beacon_estimote_project.view.fragments.DetailsFilmFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
